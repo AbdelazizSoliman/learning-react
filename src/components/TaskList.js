@@ -80,24 +80,78 @@ function TaskList() {
         // For simplicity, in this example, we'll just log the deleted task ID to the console.
         console.log(`Deleted task with ID: ${taskId}`);
     }
+    const [newTaskTitle, setNewTaskTitle] = useState('');
+
+    const handleNewTaskInputChange = (event) => {
+        setNewTaskTitle(event.target.value);
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        handleNewTaskSubmit(newTaskTitle);
+        setNewTaskTitle('');
+    };
 
     return (
-        <div>
-            <form onSubmit={(e) => e.preventDefault()}>
-                <input type="text" id="new-task-input" />
-                <button className="add" onClick={() => handleNewTaskSubmit(document.getElementById('new-task-input').value)}>
-                    Add
-                </button>
-            </form>
-            <div id="tasks">
-                {tasks.map((task) => (
-                    <Task key={task.id} task={task} onTitleChange={handleTitleChange} onDelete={handleDelete} onComplete={markTaskComplete} onIncomplete={markTaskIncomplete} />
-                ))}
-            </div>
-            <button className="clear" onClick={clearCompletedTasks}>
-                Clear Completed
-            </button>
-        </div>
+        // <div>
+        //     <form onSubmit={(e) => e.preventDefault()}>
+        //         <input type="text" id="new-task-input" />
+        //         <button className="add" onClick={() => handleNewTaskSubmit(document.getElementById('new-task-input').value)}>
+        //             Add
+        //         </button>
+        //     </form>
+        //     <div id="tasks">
+        //         {tasks.map((task) => (
+        //             <Task key={task.id} task={task} onTitleChange={handleTitleChange} onDelete={handleDelete} onComplete={markTaskComplete} onIncomplete={markTaskIncomplete} />
+        //         ))}
+        //     </div>
+        //     <button className="clear" onClick={clearCompletedTasks}>
+        //         Clear Completed
+        //     </button>
+        // </div>
+
+        <main className="main-container">
+            <header>
+                <div className="container">
+                    <h1 className="todo-text">Today's To Do</h1>
+                    <i className="fa fa-refresh"></i>
+                </div>
+                <hr />
+                <form onSubmit={handleSubmit} id="new-task-form">
+                    <input
+                        type="text"
+                        id="new-task-input"
+                        placeholder="Add to your list..."
+                        value={newTaskTitle}
+                        onChange={handleNewTaskInputChange}
+                    />
+                    <button className="add" type="submit">
+                        Add
+                    </button>
+                </form>
+            </header>
+            <section className="task-list">
+                <hr />
+                <ul id="tasks">
+                    {tasks.map((task) => (
+                        <li key={task.id} className={`task ${task.completed ? 'done' : ''}`}>
+                            <input type="checkbox" checked={task.completed} onChange={() => task.completed ? markTaskIncomplete(task.id) : markTaskComplete(task.id)} />
+                            <a href="#" className="title" contentEditable suppressContentEditableWarning onBlur={(e) => handleTitleChange(task.id, e.target.textContent)}>
+                                {task.title}
+                            </a>
+                            <button className="del" onClick={() => handleDelete(task.id)}>
+                                <i className="fa fa-trash">Delete</i>
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+                <div className="actions">
+                    <button className="clear" onClick={clearCompletedTasks}>
+                        Clear all completed
+                    </button>
+                </div>
+            </section>
+        </main>
     );
 }
 

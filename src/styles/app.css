@@ -64,12 +64,12 @@ button {
 }
 
 .del {
-    padding-right: 25px;
+    /* padding-right: 25px; */
     cursor: pointer;
     text-decoration: none;
     display: flex;
     align-items: flex-end;
-    margin-right: 1rem;
+    margin-right: 5rem;
 }
 
 .title {
