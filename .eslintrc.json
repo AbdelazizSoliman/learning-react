@@ -12,9 +12,6 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  },
   "extends": [
     "airbnb",
     "plugin:react/recommended",
